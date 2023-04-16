@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{kim2014convolutional}
+Yoon Kim.
+\newblock Convolutional neural networks for sentence classification, 2014.
+
+\bibitem{le2014distributed}
+Quoc~V. Le and Tomas Mikolov.
+\newblock Distributed representations of sentences and documents, 2014.
+
+\bibitem{8320340}
+Min Li, Zhihui Fei, Min Zeng, Fang-Xiang Wu, Yaohang Li, Yi~Pan, and Jianxin
+  Wang.
+\newblock Automated icd-9 coding via a deep learning approach.
+\newblock {\em IEEE/ACM Transactions on Computational Biology and
+  Bioinformatics}, 16(4):1193--1202, 2019.
+
+\end{thebibliography}
