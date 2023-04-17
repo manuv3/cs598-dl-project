@@ -47,8 +47,8 @@
   \\[2em]
   Group ID: 96\\
   Paper ID: 187\\
-  Presentation link: \url{TBD} \\
-  Code link: \url{TBD}} 
+  Presentation link: \url{TODO} \\
+  Code link: \url{https://github.com/manuv3/cs598-dl-project}} 
 
 \begin{document}
 \maketitle
@@ -61,7 +61,7 @@
 
 This work reproduces the idea and results in the original paper: \textit{Automated ICD-9 Coding via A Deep Learning Approach, published by Min Li, Zhihui Fei, Min Zeng, Fang-Xiang Wu, Yaohang Li, Yi Pan, and Jianxin Wang} \cite{8320340}.
 
-The paper aims to automate the extraction of ICD-9 (Ninth Revision of International Classification of Diseases) codes from patient discharge summary, through application of state-of-art (general) text processing technique called Document-to-Vector (D2V) in combination of more general Convolution Neural Network.
+The paper aims to automate the extraction of ICD-9 (Ninth Revision of International Classification of Diseases) codes from patient discharge summary, through application of state-of-art (general) text processing technique called Document-to-Vector (D2V) in combination of more Convolution Neural Network.
 
 The extraction of ICD-9 codes from free-text Discharge summary is needed to do billing, as well as raising insurance claims with the provider. Today, this procedure to extract medical codes from patient discharge summary is largely a manual effort, undertaken by hospital’s medical record department personnel. This has two problems:
 \begin{itemize}
@@ -79,9 +79,9 @@ The authors describe a novel approach to this problem through usage of DL techni
 
 \section{Scope of reproducibility}
 
-The paper proposes a novel DL (D2V + CNN) based approach to infer ICD-9 codes from unstructured patient discharge summary. It claims that proposed DL model combining Doc2Vec (D2V) and CNN, generates better embedding for documents, which perform better in multi-label classification task of identifying ICD-9 codes, when compared to traditional ML-based models.  
+The paper claims that proposed DL model combining Doc2Vec (D2V) and CNN, generates better embedding for documents, which in-turn perform better in multi-label classification task of identifying ICD-9 codes, when compared to traditional ML-based models.  
 
-More specifically it claims:
+More specifically, it claims:
 
 \begin{itemize}
 	\item Higher Micro-average F1-score in multi-label ICD-9 classification task for the proposed model when compared to baseline models: Flat-SVM and Hierarchical-SVM.
@@ -135,12 +135,12 @@ More specifically it claims:
 \section{Methodology}
 
 \subsection{Model descriptions}
-The proposed model is a DL network with two "logical" components:
+The model is a DL network with two "logical" components:
 \begin{itemize}
     \item Encoder to generate document embeddings: The function of this component is to generate effective fixed-length embedding for a given discharge summary document.This component consists of two "logical" sub-components:
     \begin{itemize}
     		\item D2V: This sub-component first trains (as pre-processing step) Doc2Vec model to learn input document vectors of length \textbf{128}, in an unsupervised way. It then fine tunes this vector,using a fully connected layer of \textbf{64} neurons, followed by a non-linear activation like sigmoid. This fine-tune layer is trained in supervised way.
-    		\item CNN: This sub-component trains a Word2Vec model as pre-processing step to build word vectors for the whole vocabulary of the collective corpus of documents. For each document, all the vectors corresponding to the contained words, are concatenated, to represent the given document. These document vectors are used as input to the CNN sub-component. This sub-component actually comprises of 3 single-layer multi-channel CNN models. Three CNN models correspond to 3 kernel sizes (of 3, 4, and 5 words)) with 64 output channels each. For CNN layer in each model is followed by a MaxPool layer to perform temporal pooling. The outputs of each of these CNN models are concatenated to generate the output vector per document of size \textbf{192 (3 models * 64 channels each)}.
+    		\item CNN: This sub-component trains a Word2Vec model as pre-processing step to build word vectors for the whole vocabulary of the collective corpus of documents. For each document, all the vectors corresponding to the contained words, are concatenated, to represent the given document. These document vectors are used as input to the CNN sub-component. This sub-component actually comprises of 3 single-layer multi-channel CNN models, similar to reference implementation in \cite{kim2014convolutional}. Three CNN models correspond to 3 kernel sizes (of 3, 4, and 5 words)) with 64 output channels each. For CNN layer in each model is followed by a MaxPool layer to perform temporal pooling. The outputs of each of these CNN models are concatenated to generate the output vector per document of size \textbf{192 (3 models * 64 channels each)}.
     \end{itemize}
 The ouput vectors from the two sub-components (D2V and CNN) are concatenated to produce the final vector for each document in the batch. Ths final vector size is \textbf{256 (64 from DNN + 192 from CNN)}.
 
@@ -151,7 +151,13 @@ The ouput vectors from the two sub-components (D2V and CNN) are concatenated to 
 	 \end{itemize}
 \end{itemize}
 
-Architecture is summarized in following diagram:
+Architecture is summarized in diagram \ref{arch_diag}.
+
+\begin{figure*}
+  \includegraphics[width=\textwidth,height=4cm]{../src/architecture}
+  \caption{Model Architecture}
+  \label{arch_diag}
+\end{figure*}
 
 The objective is to do end-to-end training of this model. Doc2Vec and Word2Vec models are trained unsupervised, in the pre-processing step. During the supervised learning phase, the above described components are trained for multi-label classification task using back-propagation. The gaol is to achieve similar or close enough performance in terms of micro-averaged F1-score, as achieved in original paper.
 
@@ -172,9 +178,7 @@ The model is medium complexity model in terms of the number of parameters to tra
 
 \subsection{Data descriptions}
 
-The model is trained and tested on MIMIC-III \href{https://physionet.org/content/mimiciii/1.4/}{MIMIC-III} (Medical Information Mart for Intensive Care) database. As per Physionet website (which maintains MIMIC database): \emph{MIMIC-III is a large, freely-available database comprising deidentified health-related data associated with over forty thousand patients who stayed in critical care units of the Beth Israel Deaconess Medical Center between 2001 and 2012.} The data is publicaly available, upon credentiating user identity on Physionet, and completing the mandatory training: Data or Specimens Only Research.
-
-\includegraphics{architecture_scaled}
+The model is trained and tested on MIMIC-III \href{https://physionet.org/content/mimiciii/1.4/}{MIMIC-III} (Medical Information Mart for Intensive Care) database. The data is publicaly available, upon credentiating user identity on Physionet, and completing the mandatory training: Data or Specimens Only Research.
 
 Specifically, following datasets in MIMIC-III were used:
 
@@ -228,13 +232,13 @@ The implementation consists of three Jupyter notebooks:
     \item data-preprocessing.ipynb: This notebook imports the datasets (DIAGNOSES\_ICD.csv and NOTEEVENTS.csv), applies necessary preprocessing and saves the final datasets.
     \item w2v-d2v.ipynb: This notebook generates and saves following:
 	\begin{itemize}
-		\item Gensim Word2Vec model based vectors for all the tokens in the vocabulary of our corpus.
-		\item Gensim Doc2Vec model based vectors for all the documents in our corpus.
+		\item \href{https://radimrehurek.com/gensim/models/word2vec.html}{Gensim Word2Vec} model based vectors for all the tokens in the vocabulary of our corpus.
+		\item \href{https://radimrehurek.com/gensim/models/doc2vec.html}{Gensim Doc2Vec} model based vectors for all the documents in our corpus.
 	\end{itemize}
 	\item dl-model.ipynb: This notebook trains and validates the DL model (as described in the model section).
 \end{itemize}
 
-Link to source code: \url{link}
+Link to source code: \url{https://github.com/manuv3/cs598-dl-project/tree/main/src}
 
 
 \subsection{Computational requirements}
@@ -354,7 +358,7 @@ The result is based on following hyper-parameters:
 \newline
 
 \begin{itemize}
-	\item The F1-score of 0.396 is better than flat-SVM (0.253) by 36\% and hieerarchical-SVM (0.335) by 15%.
+	\item The F1-score of 0.396 is better than flat-SVM (0.253) by 36\% and hieerarchical-SVM (0.335) by 15\%.
 	\item The F1-score of the model trained so far is 2.9\% worse than the one obtained by authors, in their work.
 \end{itemize}
 
@@ -385,7 +389,7 @@ TODO
 
 \section{Discussion}
 
-The original paper is reproducible to a large extent. Based on the results achieved so far, perfomance claim on the main model has been reached within 3\% of original values. Moreover, it has been conclusively proved that the proposed model improves on the performance of baseline models by 15-36%.
+The original paper is reproducible to a large extent. Based on the results achieved so far, perfomance claim on the main model has been reached within 3\% of original values. Moreover, it has been conclusively proved that the proposed model improves on the performance of baseline models by 15-36\%.
 
 The results also validates the overall approach taken:
 \begin{itemize}
@@ -394,9 +398,15 @@ The results also validates the overall approach taken:
 	\item Vary the hyperparameters like dropout rate, classification threshold etc. to achieve the desired performance metrics. 
 \end{itemize}
 
-One weakness of the approach was to not plan for faster and cheaper way to perform hyper-parameter training. So long training duration (of about 5 hrs for 80 epochs) was costly, as well as limited the ability of experiment with hyper-parameters.
+One weakness of the approach was to not plan for faster and cheaper way to perform hyper-parameter tuning (like using a smaller subset of data to get quick feedback). So long training duration (of about 5 hrs for 80 epochs) was costly, as well as limited the ability of experiment with hyper-parameters.
 
-As next steps:
+As next steps, we want to:
+\begin{itemize}
+	\item do more hyper-parameter tuning and possibly run more number of epochs, in the effort to bring the model performance closer original authors' model.
+	\item train another model without D2V component to ascertain the its importance, as part of abalation.
+	\item try changing the base parameters like number of kernel size in CNN component, or number of neurons in D2V component, etc., and observing the impact on model performance.
+\end{itemize}
+
 
 
 
@@ -408,14 +418,14 @@ As next steps:
 
 \subsection{What was difficult}
 \begin{itemize}
-	\item The authors left some gaps in the architecture of the model. For example, the architecture of D2V fine-tuning layer was not clarified. The overall architecture diagram provided by authors is abstract and leaves out finer details like activation functions in DL layers. So, it was an effort to bridge some missing pieces.
+	\item The authors left some gaps in describing the architecture of the model. For example, the architecture of D2V fine-tuning layer was not clarified. The overall architecture diagram provided by authors is abstract and leaves out finer details like which activation functions were used in DL layers. So, it was an effort to bridge some missing pieces.
 	\item The size of the model is relatively big, and lots of time was spent during training cycles. Also, cloud computing costs added up, due to intensive use of GPU.
 \end{itemize}
 
 \subsection{Recommendations for reproducibility}
 \begin{itemize}
 	\item The authors should provide more detailed architecture of the DL model. For example, where exactly are the dropout layers located in the model, what are the actual activation functions used, etc.
-	\item The authors should give more detailed description of the implementation. For example, what was their training environment, how many epochs did they run, etc.
+	\item The authors should give more detailed description of the implementation. For example, what was their training environment, what data pre processing steps did they perform, how many epochs did they run, etc.
 \end{itemize}
 
 
@@ -424,7 +434,7 @@ As next steps:
 No communication happened with original authors, so far.
 
 
-\bibliographystyle{acl_natbib}
+\bibliographystyle{plain}
 \bibliography{acl2021}
 
 %\appendix
