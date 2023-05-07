@@ -15,4 +15,12 @@ Min Li, Zhihui Fei, Min Zeng, Fang-Xiang Wu, Yaohang Li, Yi~Pan, and Jianxin
 \newblock {\em IEEE/ACM Transactions on Computational Biology and
   Bioinformatics}, 16(4):1193--1202, 2019.
 
+\bibitem{mullenbach-etal-2018-explainable}
+James Mullenbach, Sarah Wiegreffe, Jon Duke, Jimeng Sun, and Jacob Eisenstein.
+\newblock Explainable prediction of medical codes from clinical text.
+\newblock In {\em Proceedings of the 2018 Conference of the North {A}merican
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies, Volume 1 (Long Papers)}, pages 1101--1111, New Orleans,
+  Louisiana, June 2018. Association for Computational Linguistics.
+
 \end{thebibliography}

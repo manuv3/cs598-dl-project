@@ -40,7 +40,7 @@
 
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 
-\title{Project Report Draft, CS598 DL4H in Spring 2023}
+\title{Project Report, CS598 DL4H in Spring 2023}
 
 \author{Manu Vinod Shesha \\
   \texttt{manuv3@illinois.edu}
@@ -59,17 +59,17 @@
 
 \section{Introduction}
 
-This work reproduces the idea and results in the original paper: \textit{Automated ICD-9 Coding via A Deep Learning Approach, published by Min Li, Zhihui Fei, Min Zeng, Fang-Xiang Wu, Yaohang Li, Yi Pan, and Jianxin Wang} \cite{8320340}.
+This work reproduces the idea and results in the original paper: \textit{Automated ICD-9 Coding via A Deep Learning Approach}\cite{8320340}.
 
-The paper aims to automate the extraction of ICD-9 (Ninth Revision of International Classification of Diseases) codes from patient discharge summary, through application of state-of-art (general) text processing technique called Document-to-Vector (D2V) in combination of more Convolution Neural Network.
+The original paper aims to automate the extraction of ICD-9 (Ninth Revision of International Classification of Diseases) codes from patient discharge summary, through application of general text processing technique called Document-to-Vector (D2V) in combination of Convolution Neural Network (CNN).
 
-The extraction of ICD-9 codes from free-text Discharge summary is needed to do billing, as well as raising insurance claims with the provider. Today, this procedure to extract medical codes from patient discharge summary is largely a manual effort, undertaken by hospital’s medical record department personnel. This has two problems:
+The extraction of ICD-9 codes from free-text Discharge summary is needed to do billing, as well as raising insurance claims with the provider. Today, the procedure to extract medical codes from patient discharge summary is largely a manual effort, undertaken by hospital’s medical record department personnel. This has two problems:
 \begin{itemize}
     \item The process is very slow and inefficient, causing delay in the patient discharge process.
     \item The process requires specialized knowledge making it costly, and sometimes error prone.
 \end{itemize}
 
-The authors describe a novel approach to this problem through usage of DL techniques. They treat it as a task of multi-lable classification (of ICD-9 codes). Specifically, the authors combine two approaches to produce vector embedding of documents, which are further used in multi-label classification:
+The authors describe a novel approach to this problem through usage of DL techniques. They treat it as a task of multi-label classification (of ICD-9 codes). Specifically, the authors combine two approaches to produce vector embedding of documents, which are further used in multi-label classification:
 \begin{itemize}
     \item CNN (Convolution Neural Network) to discover, and extract \textbf{local features} in text. We can Intuitively, the local context of the text, like phrases describing a medical concept, should be important in deriving related ICD codes.
     \item D2V (Document to Vector) \cite{le2014distributed} embedding technique to capture the \textbf{global features} of the document. D2V extends upon Word2Vec, and (unlike CNN) takes order of words into account. It should be noted that D2V unsupervised learning approach.
@@ -129,34 +129,36 @@ More specifically, it claims:
 \begin{itemize}
     \item Higher Micro-average F1-score in multi-label ICD-9 classification task for the proposed model when compared to baseline models: Flat-SVM and Hierarchical-SVM.
     \item The model accuracy degrades significantly when either of the components: D2V or CNN are removed.
+    \item In addition, we also build a different variation of the model which uses CNN with attention (instead of CNN with D2V), as part of additional work to verify if the performance can be improved.
 \end{itemize}
-
 
 \section{Methodology}
 
 \subsection{Model descriptions}
-The model is a DL network with two "logical" components:
-\begin{itemize}
-    \item Encoder to generate document embeddings: The function of this component is to generate effective fixed-length embedding for a given discharge summary document.This component consists of two "logical" sub-components:
-    \begin{itemize}
-    		\item D2V: This sub-component first trains (as pre-processing step) Doc2Vec model to learn input document vectors of length \textbf{128}, in an unsupervised way. It then fine tunes this vector,using a fully connected layer of \textbf{64} neurons, followed by a non-linear activation like sigmoid. This fine-tune layer is trained in supervised way.
-    		\item CNN: This sub-component trains a Word2Vec model as pre-processing step to build word vectors for the whole vocabulary of the collective corpus of documents. For each document, all the vectors corresponding to the contained words, are concatenated, to represent the given document. These document vectors are used as input to the CNN sub-component. This sub-component actually comprises of 3 single-layer multi-channel CNN models, similar to reference implementation in \cite{kim2014convolutional}. Three CNN models correspond to 3 kernel sizes (of 3, 4, and 5 words)) with 64 output channels each. For CNN layer in each model is followed by a MaxPool layer to perform temporal pooling. The outputs of each of these CNN models are concatenated to generate the output vector per document of size \textbf{192 (3 models * 64 channels each)}.
-    \end{itemize}
-The ouput vectors from the two sub-components (D2V and CNN) are concatenated to produce the final vector for each document in the batch. Ths final vector size is \textbf{256 (64 from DNN + 192 from CNN)}.
+The model is a DL network with two "logical" components: Encoder and Classifier.
 
-	\item Classifier to perform multi-label classification of ICD-9 codes. This component consists of:
-	 \begin{itemize}
-	 	\item Dropout layer: The document vector generated by encoder component is regularized by stochastically dropping different dimensions.
-	 	\item Fully connected layer with sigmoid activation: This layer generates the final output of size \textbf{6984 (total number of ICD-9 codes)}. Each dimension (representing an ICD-9 code) is assigned a probability by sigmoid activation.
-	 \end{itemize}
-\end{itemize}
+The Encoder generates fixed-length embedding for a given discharge summary document.This component consists of two "logical" sub-components: D2V and CNN.
+
+The "D2V" sub-component first trains (as pre-processing step) Doc2Vec model to learn input document vectors of length \texttt{128}, in an unsupervised way. It then fine-tunes these vectors in a supervised way using a fully connected layer of \texttt{64} neurons, followed by a non-linear activation like ReLU (Rectified Linear Unit), and finally, a dropout layer which regularizes the output of fully-connected layer by stochastically dropping different dimensions of the output vector.
+
+The "CNN" sub-component uses Word2Vec as pre-processing step to build word vectors (of size \texttt{100}) for the whole vocabulary of the collective corpus of documents. For each document, all the vectors corresponding to the contained words, are "stacked" as a matrix, to represent the given document. Batches of these document matrices are used as input to the CNN sub-component. This sub-component actually comprises of 3 single-layer multi-channel CNN models, similar to reference implementation in \cite{kim2014convolutional}. Three CNN models correspond to 3 kernel sizes of \texttt{3 (x 100), 4 (x 100), and 5 (x 100)}, with \texttt{64} output channels each. 2D CNN layer in each model is followed by a MaxPool layer to perform temporal pooling. The outputs of each of these CNN models are concatenated to generate the output vector per document of size \texttt{192 (3 models * 64 channels each)}.
+    
+The ouput vectors from the two sub-components (D2V and CNN) are concatenated to produce the final vector for each document in the batch. Ths final vector size is \texttt{256 (64 from DNN + 192 from CNN)}.
+
+The Classifier performs multi-label classification of ICD-9 codes. This component consists of a fully connected layer with sigmoid activation. This layer generates the final output of size \texttt{6984 (total number of ICD-9 codes)}. Each dimension (representing an ICD-9 code) is assigned a probability by sigmoid activation.
+
 
 Architecture is summarized in diagram \ref{arch_diag}.
 
 \begin{figure*}
   \includegraphics[width=\textwidth,height=4cm]{../src/architecture}
-  \caption{Model Architecture}
+  \caption{D2V + CNN Model Architecture}
   \label{arch_diag}
+\end{figure*}
+\begin{figure*}
+  \includegraphics[width=\textwidth,height=4cm]{../src/architecture2}
+  \caption{CNN + Attention Model Architecture}
+  \label{arch2_diag}
 \end{figure*}
 
 The objective is to do end-to-end training of this model. Doc2Vec and Word2Vec models are trained unsupervised, in the pre-processing step. During the supervised learning phase, the above described components are trained for multi-label classification task using back-propagation. The gaol is to achieve similar or close enough performance in terms of micro-averaged F1-score, as achieved in original paper.
@@ -164,17 +166,36 @@ The objective is to do end-to-end training of this model. Doc2Vec and Word2Vec m
 The model is medium complexity model in terms of the number of parameters to train.
 \newline
 
-\begin{tiny}
+\begin{small}
 \begin{tabular}{ ll }
   \hline
-  	CNN layer (300, 400, 500 sized 1D-kernels with 64 channels each) & 76992 \\
+  	CNN layer (3x100, 4x100, 5x100 sized \\ 2D-kernels with 64 out-channels each) & 76992 \\
   \hline
-  	D2V Fine-tune layer (128 input dimension, 64 neurons) & 8256 \\
+  	D2V Fine-tune layer \\ (128 input dimension, 64 neurons) & 8256 \\
   \hline
-  	Fully-connected classification layer (256 input dimension, 6984 neurons) & 1794888 \\
+  	Fully-connected classification layer \\ (256 input dimension, 6984 neurons) & 1794888 \\
   \hline
 \end{tabular}
-\end{tiny}
+\end{small}
+\newline
+
+An additional model (not part of the original paper) was created to study the impact of attention over plain CNN. The idea is inspired from CAML\citep{mullenbach-etal-2018-explainable} architecture which leverages attention weights (along with other techniques) to derive ICD-9 codes from MIMIC-III discharge summary reports. The archiecture of this model consists of a single layer multi-channel 1D CNN, an attention mechanism, and finally, the classification component consisting of a fully connected layer with a Sigmoid classifier. Refer to diagram \ref{arch2_diag}. The objective of this experiment was not to build a finely tuned model, but to check if the performance (in terms of micro f1-score) can be improved using attention mechanism.
+
+The table below details the number of parameters in this additional model.
+\newline
+
+\begin{small}
+\begin{tabular}{ ll }
+  \hline
+  	CNN layer (3-sized 1D-kernel with 100 \\ in-channels and 50 out-channels) & 25050 \\
+  \hline
+  	Attention matrix (6984 output states x 696 \\ temporal hidden states) & 349200 \\
+  \hline
+  	Fully-connected classification layer \\(50 input dimension, 1 output dimension) & 51 \\
+  \hline
+\end{tabular}
+\end{small}
+
 
 \subsection{Data descriptions}
 
@@ -221,74 +242,117 @@ Specifically, following datasets in MIMIC-III were used:
 
 \subsection{Hyperparameters}
 
-TODO
+For the reproducability, following hyperparamters were tuned:
+\begin{itemize}
+	\item Probabilities for dropout layers in D2V and CNN components: The original paper found the optimum value of dropout probability to be \texttt{0.70}. But in this reproducibility work, the best performance was achieved at \texttt{0.20} dropout probability. 
+	\item Threshold value for binary classification: The value between 0 and 1, represents the threshold to assign class 0 or 1 for a given ICD-9 code, in the final classification layer. The original paper found the optimum threshold value as \texttt{0.20}. The same was found to be optimum in this reproducibility work. Lower threshold value was resulting in higher recall but lower accuracy. Similalry higher threshold resulted in higher accuracy but lower recall. At 0.20 threshold, accuracy and recall achieved harmonic balance to result in higher f1-score.
+\end{itemize}
+
+Many potential hyperparameters like number of units in fully connected layers (in D2V fine-tuning, and in classification component), convolution kernel sizes, Doc2Vec/Word2Vec embedding dimensions, and max number of tokens per document, were used as described in original paper.
+
+Many "potential hyperparameters like type of activation function (ReLU), learning rate for backward propagation (0.001), etc. were chosen based on "conventional" wisdom and kept constant throughout, due to time constraint, and resource limits.
 
 \subsection{Implementation}
 
-The implemenation has been entirely done by the team. To the best of knowledge of the team, no implementation code by authors of original paper, or others is available publicly.
+The implemenation has been entirely done by the team. To the best of knowledge of the team, no implementation code by authors of original paper is available publicly.
 
-The implementation consists of three Jupyter notebooks:
-\begin{itemize}
-    \item data-preprocessing.ipynb: This notebook imports the datasets (DIAGNOSES\_ICD.csv and NOTEEVENTS.csv), applies necessary preprocessing and saves the final datasets.
-    \item w2v-d2v.ipynb: This notebook generates and saves following:
+The implementation uses Jupyter notebooks.
+
+The notebook \href{https://github.com/manuv3/cs598-dl-project/blob/main/src/data\_preprocessing.ipynb}{data\_preprocessing.ipynb} imports the MIMIC-III datasets (\texttt{DIAGNOSES\_ICD.csv} and \texttt{NOTEEVENTS.csv}), applies necessary preprocessing and saves the final datasets.
+    \begin{itemize}
+    		\item Filtering unnecessary columns from datasets. From \texttt{DIAGNOSES\_ICD.csv}, only \texttt{HADM\_ID, ICD9\_CODE} columns are needed. From \texttt{NOTEEVENTS.csv}, only \texttt{HADM\_ID, TEXT} columns are needed.
+    		\item Grouping \texttt{ICD9\_CODE} per hospital visit, and representing them as multi-hot vector.
+    		\item Pickling the transformed Pandas Dataframes and saving on disk.
+    \end{itemize}
+
+The notebook \href{https://github.com/manuv3/cs598-dl-project/blob/main/src/w2v\_d2v.ipynb}{w2v\_d2v.ipynb} generates and saves following:
 	\begin{itemize}
 		\item \href{https://radimrehurek.com/gensim/models/word2vec.html}{Gensim Word2Vec} model based vectors for all the tokens in the vocabulary of our corpus.
 		\item \href{https://radimrehurek.com/gensim/models/doc2vec.html}{Gensim Doc2Vec} model based vectors for all the documents in our corpus.
 	\end{itemize}
-	\item dl-model.ipynb: This notebook trains and validates the DL model (as described in the model section).
-\end{itemize}
+	
+The notebook \href{https://github.com/manuv3/cs598-dl-project/blob/main/src/dl\_model.ipynb}{dl\_model.ipynb} trains and validates the DL models (as described in the model section). Following models have been included in this notebook:
+		\begin{itemize}
+			\item DL full model (D2V + CNN)
+			\item D2V-only DL model (ablation)
+			\item CNN-only DL model (ablation)
+			\item CNN with attention DL model (additional work)
+		\end{itemize}
 
 Link to source code: \url{https://github.com/manuv3/cs598-dl-project/tree/main/src}
 
 
 \subsection{Computational requirements}
 
+Two coumptational environments were used in this work:
+\begin{itemize}
+	\item Personal Machine: 
+	\begin{itemize}
+		\item CPU: \texttt{Intel® Core™ i7-10750H × 12 processor with 16.0 GiB Memory}
+		\item GPU: \texttt{NVIDIA GeForce GTX 1650 with 4.0 GiB Memory}
+	\end{itemize}
+	\item Google Collab Free with "standard" GPU support
+\end{itemize}
 
 
 The computational requirements for different steps are described below:
 \begin{itemize}
-	\item MIMIC-III datasets import and preprocessing: All the steps were performed on personal machine with 16 GB of total RAM and Intel® Core™ i7-10750H × 12 processor. Only one operation was a bit compute intesive: a "join" operation, during creation of multi-hot ICD9 embeddings for each hospitalization. This operation took around 14 seconds on the CPU of personal machine.
-	\item Word2Vec and Doc2Vec model training and vectors generation: All the steps were performed on personal machine. Gensim implementaion of Word2Vec and Doc2Vec support streamed source. So, there is no need to load the whole corpus in memory. However, this is no GPU support in Gensim yet. Since there is no parameter tuning in scope, and this is one time operation, it was performed on personal machine. The time taken to generate these encodings are as folowing:
+	\item MIMIC-III datasets import and preprocessing: All the steps were performed on personal machine on CPU.
 \newline
 
 \begin{small}
 \begin{tabular}{ ll }
 	\hline
-   		Word2Vec embeddings & 37 minutes \\
+   		Memory used & 10 GiB \\
   	\hline
-    		Doc2Vec embeddings & 51 minutes \\ 
+    		Time taken & 3-4 minutes \\
+    \hline
+    		Disk space needed for \\ input datasets & 3.75 GB \\
+    	\hline
+    		Disk space needed for \\ output DataFrames & 876 MB \\		 
   	\hline
 \end{tabular}
 \end{small}
 \newline
-	\item Training the full Deep Learning model: The computational requirements were high due to following factors:
-	\begin{itemize}
-		\item Each input data to DL model is 70000 dimensional float vector (700 words max with 100 dimensional W2V encoding each). With more than 52600 documents, this requires both large amount of GPU  memory (~14 GB) to store, as well as parallel computing on GPU. Such computing is not possible on available  personal computing environment (correctly predicted in the proposal).
-		\item High dimension of problem. There are 6984 ICD9 codes found in the dataset, forming as many dimensions in the multi-label classification problem. As a result the final fully connected layer has over 1.79 million parameters.
-	\end{itemize}
-	Here, we improve the training time per epoch at the cost of consuming more GPU memory by loading the whole float tensor (52691 x 70000) of size ~14 GB in GPU memory. Such a strategy requires premium GPU  which is available through Google Collab Pro.
-	On Colab Pro, we could train and validate the model per run, with following resource utilization:
+
+	\item Word2Vec and Doc2Vec model training and vectors generation: All the steps were performed on personal machine. Gensim implementaion of Word2Vec and Doc2Vec support streamed source. So, there is no need to load the whole corpus in memory. However, there is no GPU support in Gensim yet.
 \newline
 
-\begin{tiny}
+\begin{small}
 \begin{tabular}{ ll }
 	\hline
-   		System RAM used & 8GB \\
+   		Word2Vec embeddings \\ generation time & 37 minutes \\
   	\hline
-    		GPU RAM used & 23GB (Includes data and model) \\ 
+    		Doc2Vec embeddings \\ generation time & 51 minutes \\ 
   	\hline
-    		Computation units burn rate & 13.08 per hour \\
+  		Memory used & 1.5 GB \\
   	\hline
-  		Time taken to train per epoch & 3.5-4 minutes \\
-  	\hline
-  		Total time taken to run 80 epochs & 5 hours \\
+  		Disk space needed for \\ output embeddings & 70.1 MB \\
   	\hline
 \end{tabular}
-\end{tiny}
+\end{small}
+\newline
+	\item Training the full Deep Learning model: The training could be easily performed on personal machine.
 \newline
 
-Multiple such runs (4 to 5) were executed for hyperparameter tuning.
-	\item Training partial model with only D2V (for abalation): During the training of this model we just need to tune the parameters of 2 fully connected layers, which is not very computationally intensive. On Google Collab Free environment, we could achieve this easily:
+\begin{small}
+\begin{tabular}{ ll }
+	\hline
+   		System RAM used & 7.5 GB \\
+  	\hline
+    		GPU RAM used & 1.5 GB \\
+  	\hline
+  		Epochs & 20 \\
+  	\hline
+  		Time taken to train and evaluate & 20-30 minutes \\
+  	\hline
+\end{tabular}
+\end{small}
+\newline
+
+Multiple such runs were executed for hyperparameter tuning.
+
+	\item Training partial model with only D2V (for abalation): During the training of this model we just need to tune the parameters of 2 fully connected layers, which is not very computationally intensive. This was easily achieved on personal machine:
 \newline
 
 \begin{small}
@@ -298,34 +362,62 @@ Multiple such runs (4 to 5) were executed for hyperparameter tuning.
   	\hline
     		GPU RAM used & 1.2GB \\
   	\hline
-  		Total time taken to run 80 epochs & 24 minutes \\
+  		Epochs & 40 \\
+  	\hline
+  		Time taken to train and evaluate & 56 minutes \\
   	\hline
 \end{tabular}
 \end{small}
 \newline
+
+	\item Training partial model with only CNN (for abalation): This involved training a single 2D CNN layer parameters and one fully connected layer parameters. This was easily achieved on personal machine:
+\newline
+
+\begin{small}
+\begin{tabular}{ ll }
+	\hline
+   		System RAM used & 7.1 GB \\
+  	\hline
+    		GPU RAM used & 1.2 GB \\
+  	\hline
+  		Epochs & 15 \\
+  	\hline
+  		Time taken to train and evaluate & 16 minutes \\
+  	\hline
+\end{tabular}
+\end{small}
+\newline	
+
+	\item Training a different model with CNN with attention (for additional work): This involved training a single layer of 1D multi-channel CNN, attention layer and final fully connected layer. Owing to the number of parameters (\texttt{374301} total), this required ~6 GB of GPU RAM. The Google Collab Free version was sufficient to train this model.
+\newline
+
+\begin{small}
+\begin{tabular}{ ll }
+	\hline
+   		System RAM used & 7.1 GB \\
+  	\hline
+    		GPU RAM used & 5.6 GB \\
+  	\hline
+  		Epochs & 20 \\
+  	\hline
+  		Time taken to train and evaluate & 51 minutes \\
+  	\hline
+\end{tabular}
+\end{small}
+\newline	
 	
 \end{itemize}
 
 
-As, estimated during proposal, most of the steps in the whole reproduction process could be performed in personal machine with 16 GB RAM and Intel I7 12-Core CPU. The task of training the main DL model is compute intensive, and required premium GPU support on Google Collab environment.
+In general, personal machine was enough for the reproducing the models described in the original paper, unlike mentioned in the proposal where it was anticipated that the size of input samples and the number of parameters will require cloud computational environment.
 
 \section{Results}
 
-The results achieved so far validate the main claim made by the paper, which is that the combined D2V + CNN model performs the multi-label ICD9 classification task with better micro-averaged f1-score, in comparison to traditional ML models: flat-SVM and hierarchical-SVM.
-
-Start with a high-level overview of your results. Does your work support the claims you listed in section 2.1? Keep this section as factual and precise as possible, reserve your judgement and discussion points for the next ``Discussion'' section. 
-
-Go into each individual result you have, say how it relates to one of the claims, and explain what your result is. Logically group related results into sections. Clearly state if you have gone beyond the original paper to run additional experiments and how they relate to the original claims. 
-
-Tips 1: Be specific and use precise language, e.g. ``we reproduced the accuracy to within 1\% of reported value, that upholds the paper's conclusion that it performs much better than baselines.'' Getting exactly the same number is in most cases infeasible, so you'll need to use your judgement call to decide if your results support the original claim of the paper. 
-
-Tips 2: You may want to use tables and figures to demonstrate your results.
-
-% The number of subsections for results should be the same as the number of hypotheses you are trying to verify.
+The results validate the main claim made by the paper, which is that the combined D2V + CNN model performs the multi-label ICD9 classification task with better micro-averaged f1-score, in comparison to traditional ML models: flat-SVM and hierarchical-SVM.
 
 \subsection{Result 1}
 
-We reproduced the DL model, based on D2V and CNN components, to generate document vectors which capture local and global characteristics of the text, and perform multi-lable classification task of identifying the associated ICD9 codes. The result so far are summaried in table below:
+DL model (based on D2V and CNN components), was reprodcued successfully, to generate document vectors which capture local and global characteristics of the text, and perform multi-label classification task of identifying the associated ICD9 codes.
 \newline
 
 \begin{small}
@@ -333,38 +425,24 @@ We reproduced the DL model, based on D2V and CNN components, to generate documen
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.467 & 0.344 & 0.396 \\
+  	0.482 & 0.358 & 0.411 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
-\end{small}
-\newline
 
-The result is based on following hyper-parameters:
-\newline
-
-\begin{small}
-\begin{tabular}{ ccc }
-  \hline
-  	Dropout-rate & Probability-Threshold & Epochs \\
-  \hline
-  	0.20 & 0.20 & 80 \\
-  \hline
-\end{tabular}
-
-\textit{Probability-Threshold is the threshold for binary classification.}
+\textit{threshold: 0.20, CNN dropout: 0.20, D2V dropout: 0.30, epochs: 20}
 \end{small}
 \newline
 
 \begin{itemize}
-	\item The F1-score of 0.396 is better than flat-SVM (0.253) by 36\% and hieerarchical-SVM (0.335) by 15\%.
-	\item The F1-score of the model trained so far is 2.9\% worse than the one obtained by authors, in their work.
+	\item The F1-score of \texttt{0.411} is better than flat-SVM (\texttt{0.253}) by \texttt{38\%} and hieerarchical-SVM (0.335) by \texttt{18\%}.
+	\item The F1-score of the reproduced model is similar (infact, little better) than the one obtained by authors (\texttt{0.408}), in their work, while still maintaining comparable levels of accuracy, and recall.
 \end{itemize}
 
 \subsection{Result 2}
 
-We trained a partial DL model (without the CNN component), as part of abalation, to validate the importance of CNN component. The results are provided below:
+A partial DL model (without the CNN component), was reproduced successfully as part of abalation, to validate the importance of CNN component.
 \newline
 
 \begin{small}
@@ -372,24 +450,72 @@ We trained a partial DL model (without the CNN component), as part of abalation,
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.291 & 0.324 & 0.307 \\
+  	0.362 & 0.257 & 0.300 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
+
+\textit{threshold: 0.20, dropout: 0.10, epochs: 40}
 \end{small}
 \newline
 
 
-The f1-score of 0.307 of this partial model is very close to that obtained by original authors 0.308. This result clearly indicates the severe degradation from the performace of combined model, emphasizing the importance of CNN model.
+The F1-score of \texttt{0.300} is a bit lesser than corresponding score obtained by original authors (\texttt{0.308}) by \texttt{2.5\%}. Nevertheless, this result clearly indicates the severe degradation from the performance of combined model, emphasizing the importance of CNN component.
+
+\subsection{Result 3}
+
+A partial DL model (without the D2V component), was reproduced successfully as part of abalation, to validate the importance of D2V component.
+\newline
+
+\begin{small}
+\begin{tabular}{ ccc }
+  \hline
+  	Precision & Recall & F1-score \\
+  \hline
+  	0.467 & 0.350 & 0.400 \\
+  \hline
+\end{tabular}
+
+\textit{All values are Micro-averaged.}
+
+\textit{threshold: 0.20, dropout: 0.20, epochs: 15}
+\end{small}
+\newline
+
+
+The f1-score of \texttt{0.400} of this partial model is very close to that obtained by original authors \texttt{0.399}. This result indicates the \texttt{2.6\%} and \texttt{3.1\%} degradation in micro f1-score and accuracy respectively, compared to combined model, which supports the claim by the authors that D2V component is important, but its contribution is lesser than CNN component.
 
 \subsection{Additional results not present in the original paper}
 
-TODO
+An alternate model based on CNN + Attention was created to demonstrate the effectiveness of leveraging attention instead of max-pooling of CNN hidden states.
+\newline
+
+\begin{small}
+\begin{tabular}{ ccc }
+  \hline
+  	Precision & Recall & F1-score \\
+  \hline
+  	0.524 & 0.367 & 0.432 \\
+  \hline
+\end{tabular}
+
+\textit{All values are Micro-averaged.}
+
+\textit{threshold: 0.30, kernel size: 5, dropout: 0.10, epochs: 20}
+\end{small}
+\newline
+
+This "new" model did not undergo extensive hyperparameter tuning, but it was still able to surpass the performance of reproduced (main) model:
+
+\begin{itemize}
+	\item The F1-score of \texttt{0.432} is better than the main model (\texttt{0.411}) by \texttt{5\%}. It also significantly improved accuracy by \texttt{21\%}.
+	\item The downside is that this model required more than double the time to train and validate.
+\end{itemize}
 
 \section{Discussion}
 
-The original paper is reproducible to a large extent. Based on the results achieved so far, perfomance claim on the main model has been reached within 3\% of original values. Moreover, it has been conclusively proved that the proposed model improves on the performance of baseline models by 15-36\%.
+The original paper is reproducible to a large extent. Based on the results achieved, perfomance claim on the main model has been reached by reproduced model. Moreover, it has been conclusively proved that the proposed model improves on the performance of baseline models by 15-36\%.
 
 The results also validates the overall approach taken:
 \begin{itemize}
@@ -398,17 +524,7 @@ The results also validates the overall approach taken:
 	\item Vary the hyperparameters like dropout rate, classification threshold etc. to achieve the desired performance metrics. 
 \end{itemize}
 
-One weakness of the approach was to not plan for faster and cheaper way to perform hyper-parameter tuning (like using a smaller subset of data to get quick feedback). So long training duration (of about 5 hrs for 80 epochs) was costly, as well as limited the ability of experiment with hyper-parameters.
-
-As next steps, we want to:
-\begin{itemize}
-	\item do more hyper-parameter tuning and possibly run more number of epochs, in the effort to bring the model performance closer original authors' model.
-	\item train another model without D2V component to ascertain the its importance, as part of abalation.
-	\item try changing the base parameters like number of kernel size in CNN component, or number of neurons in D2V component, etc., and observing the impact on model performance.
-\end{itemize}
-
-
-
+One weakness in this work was the lack of peer review (due to single member team), resulting in total absence of feedback loop. This caused some wastage of time and computational resources. In the first iteration of this work, the CNN component was coded as 1D convolution (with single input channel) over  concatenated word vectors of total dimension of \texttt{70000}, per document. This was extremely inefficient process resulting in significant GPU RAM usage as well as long training duration of about \texttt{5} hours. In second iteration, this was changed to 2D convolution with multi-input channels, and this significantly reduced the memory requirements as well as training duration, both by over \texttt{90\%}.
 
 \subsection{What was easy}
 \begin{itemize}
@@ -418,8 +534,8 @@ As next steps, we want to:
 
 \subsection{What was difficult}
 \begin{itemize}
-	\item The authors left some gaps in describing the architecture of the model. For example, the architecture of D2V fine-tuning layer was not clarified. The overall architecture diagram provided by authors is abstract and leaves out finer details like which activation functions were used in DL layers. So, it was an effort to bridge some missing pieces.
-	\item The size of the model is relatively big, and lots of time was spent during training cycles. Also, cloud computing costs added up, due to intensive use of GPU.
+	\item The authors left some gaps in describing the architecture of the model. For example, the architecture of D2V fine-tuning layer was not clarified. The overall architecture diagram provided by authors is abstract and leaves out finer details like what pre-processing steps were taken before using the documents for training, which activation functions were used in DL layers, etc. So, it was an effort to bridge some missing pieces.
+	\item The size of the model is relatively big, and lots of time was spent during training cycles. As a result hyperparameter tuning is limited by available time.
 \end{itemize}
 
 \subsection{Recommendations for reproducibility}
@@ -431,7 +547,7 @@ As next steps, we want to:
 
 \section{Communication with original authors}
 
-No communication happened with original authors, so far.
+No communication was attempted with original authors.
 
 
 \bibliographystyle{plain}

@@ -253,193 +253,24 @@ Time spent:3201.2554490566254
 Only CNN threshold: 0.20, dropout: 0.20
 
 Epoch: 0 done!
-precision: 0.424, recall: 0.151, f1: 0.222
+precision: 0.401, recall: 0.143, f1: 0.211
 Epoch: 1 done!
 Epoch: 2 done!
-precision: 0.462, recall: 0.243, f1: 0.319
+precision: 0.431, recall: 0.216, f1: 0.287
 Epoch: 3 done!
 Epoch: 4 done!
-precision: 0.502, recall: 0.271, f1: 0.352
+precision: 0.476, recall: 0.234, f1: 0.314
 Epoch: 5 done!
 Epoch: 6 done!
-precision: 0.456, recall: 0.322, f1: 0.378
+precision: 0.504, recall: 0.260, f1: 0.343
 Epoch: 7 done!
 Epoch: 8 done!
-precision: 0.473, recall: 0.328, f1: 0.387
+precision: 0.513, recall: 0.268, f1: 0.352
 Epoch: 9 done!
-Time spent:618.5428495407104
-
-Epoch: 10 done!
-precision: 0.469, recall: 0.341, f1: 0.395
-Epoch: 11 done!
-Epoch: 12 done!
-precision: 0.501, recall: 0.320, f1: 0.391
-Epoch: 13 done!
-Epoch: 14 done!
-precision: 0.467, recall: 0.350, f1: 0.400
-Time spent:308.44830298423767
+Time spent:630.3102686405182
 
 
 
-=====
-
-Only CNN threshold: 0.20, dropout: 0.15
-
-Epoch: 0 done!
-precision: 0.454, recall: 0.132, f1: 0.204
-Epoch: 1 done!
-Epoch: 2 done!
-precision: 0.456, recall: 0.229, f1: 0.305
-Epoch: 3 done!
-Epoch: 4 done!
-precision: 0.500, recall: 0.264, f1: 0.345
-Epoch: 5 done!
-Epoch: 6 done!
-precision: 0.482, recall: 0.300, f1: 0.370
-Epoch: 7 done!
-Epoch: 8 done!
-precision: 0.508, recall: 0.290, f1: 0.369
-Epoch: 9 done!
-Epoch: 10 done!
-precision: 0.483, recall: 0.314, f1: 0.381
-Epoch: 11 done!
-Epoch: 12 done!
-precision: 0.480, recall: 0.320, f1: 0.384
-Epoch: 13 done!
-Epoch: 14 done!
-precision: 0.495, recall: 0.313, f1: 0.384
-Epoch: 15 done!
-Epoch: 16 done!
-precision: 0.491, recall: 0.319, f1: 0.387
-Epoch: 17 done!
-Epoch: 18 done!
-precision: 0.488, recall: 0.319, f1: 0.386
-Epoch: 19 done!
-Epoch: 20 done!
-precision: 0.484, recall: 0.325, f1: 0.389
-Epoch: 21 done!
-Epoch: 22 done!
-precision: 0.485, recall: 0.324, f1: 0.388
-Epoch: 23 done!
-Epoch: 24 done!
-precision: 0.499, recall: 0.315, f1: 0.386
-Epoch: 25 done!
-Epoch: 26 done!
-precision: 0.479, recall: 0.325, f1: 0.387
-Epoch: 27 done!
-Epoch: 28 done!
-precision: 0.465, recall: 0.337, f1: 0.391
-Epoch: 29 done!
-Time spent:1907.3765971660614
-
-=======================
-
-Only D2V threshold: 0.20 dropout: 0.10
-
-Epoch: 0 done!
-precision: 0.305, recall: 0.093, f1: 0.142
-Epoch: 1 done!
-Epoch: 2 done!
-precision: 0.340, recall: 0.162, f1: 0.219
-Epoch: 3 done!
-Epoch: 4 done!
-precision: 0.346, recall: 0.200, f1: 0.254
-Epoch: 5 done!
-Epoch: 6 done!
-precision: 0.352, recall: 0.225, f1: 0.275
-Epoch: 7 done!
-Epoch: 8 done!
-precision: 0.374, recall: 0.225, f1: 0.281
-Epoch: 9 done!
-Epoch: 10 done!
-precision: 0.369, recall: 0.236, f1: 0.288
-Epoch: 11 done!
-Epoch: 12 done!
-precision: 0.367, recall: 0.243, f1: 0.293
-Epoch: 13 done!
-Epoch: 14 done!
-precision: 0.369, recall: 0.241, f1: 0.292
-Time spent:868.287793636322
-Epoch: 20 done!
-precision: 0.367, recall: 0.248, f1: 0.296
-Epoch: 21 done!
-Epoch: 22 done!
-precision: 0.367, recall: 0.250, f1: 0.297
-Epoch: 23 done!
-Epoch: 24 done!
-precision: 0.368, recall: 0.250, f1: 0.298
-Epoch: 25 done!
-Epoch: 26 done!
-precision: 0.366, recall: 0.250, f1: 0.297
-Epoch: 27 done!
-Epoch: 28 done!
-precision: 0.366, recall: 0.252, f1: 0.298
-Epoch: 29 done!
-Time spent:577.6578342914581
-====
-
-Only D2V threshold: 0.15 dropout: 0.15
-
-Epoch: 0 done!
-precision: 0.219, recall: 0.145, f1: 0.175
-Epoch: 1 done!
-Epoch: 2 done!
-precision: 0.278, recall: 0.209, f1: 0.239
-Epoch: 3 done!
-Epoch: 4 done!
-precision: 0.291, recall: 0.250, f1: 0.269
-Epoch: 5 done!
-Epoch: 6 done!
-precision: 0.298, recall: 0.277, f1: 0.287
-Epoch: 7 done!
-Epoch: 8 done!
-precision: 0.303, recall: 0.286, f1: 0.294
-Epoch: 9 done!
-Epoch: 10 done!
-precision: 0.306, recall: 0.290, f1: 0.298
-Epoch: 11 done!
-Epoch: 12 done!
-precision: 0.306, recall: 0.299, f1: 0.302
-Epoch: 13 done!
-Epoch: 14 done!
-precision: 0.312, recall: 0.294, f1: 0.303
-Time spent:866.8937788009644
-
-
-======
-CNN with attention: threshold: 0.30, dropout = 0.10
-
-Epoch: 0 done!
-precision: 0.379, recall: 0.090, f1: 0.145
-Epoch: 1 done!
-Epoch: 2 done!
-precision: 0.500, recall: 0.227, f1: 0.312
-Epoch: 3 done!
-Epoch: 4 done!
-precision: 0.519, recall: 0.297, f1: 0.378
-Epoch: 5 done!
-Epoch: 6 done!
-precision: 0.517, recall: 0.329, f1: 0.402
-Epoch: 7 done!
-Epoch: 8 done!
-precision: 0.528, recall: 0.339, f1: 0.413
-Epoch: 9 done!
-Epoch: 10 done!
-precision: 0.517, recall: 0.358, f1: 0.423
-Epoch: 11 done!
-Epoch: 12 done!
-precision: 0.531, recall: 0.352, f1: 0.423
-Epoch: 13 done!
-Epoch: 14 done!
-precision: 0.538, recall: 0.349, f1: 0.424
-Epoch: 15 done!
-Epoch: 16 done!
-precision: 0.522, recall: 0.364, f1: 0.429
-Epoch: 17 done!
-Epoch: 18 done!
-precision: 0.524, recall: 0.367, f1: 0.432
-Epoch: 19 done!
-Time spent:3038.0843448638916
 
 
 
