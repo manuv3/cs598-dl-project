@@ -1,0 +1,446 @@
+Only CNN
+
+precision: 0.455, recall: 0.340, f1: 0.389
+
+
+CNN+D2V: 0.20 threshold + 0.20 dropout:
+
+Epoch: 0 done!
+precision: 0.395, recall: 0.188, f1: 0.255
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.437, recall: 0.280, f1: 0.341
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.439, recall: 0.325, f1: 0.374
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.466, recall: 0.343, f1: 0.395
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.493, recall: 0.339, f1: 0.401
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.473, recall: 0.360, f1: 0.409
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.474, recall: 0.367, f1: 0.413
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.490, recall: 0.355, f1: 0.412
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.475, recall: 0.370, f1: 0.416
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.477, recall: 0.368, f1: 0.416
+Epoch: 19 done!
+Time spent:1221.1412732601166
+
+====
+
+CNN+D2V: 0.20 threshold + 0.20 dropout for CNN, 0.30 dropout for D2V:
+
+Epoch: 0 done!
+precision: 0.389, recall: 0.181, f1: 0.247
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.466, recall: 0.264, f1: 0.337
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.459, recall: 0.322, f1: 0.378
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.488, recall: 0.331, f1: 0.394
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.469, recall: 0.349, f1: 0.400
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.495, recall: 0.343, f1: 0.405
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.489, recall: 0.344, f1: 0.404
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.496, recall: 0.346, f1: 0.407
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.466, recall: 0.369, f1: 0.412
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.482, recall: 0.358, f1: 0.411
+Epoch: 19 done!
+
+====
+CNN+D2V: 0.20 threshold + 0.10 dropout for CNN, 0.20 dropout for D2V:
+
+Epoch: 0 done!
+precision: 0.391, recall: 0.201, f1: 0.266
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.429, recall: 0.295, f1: 0.349
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.451, recall: 0.340, f1: 0.388
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.462, recall: 0.356, f1: 0.402
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.458, recall: 0.376, f1: 0.413
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.453, recall: 0.387, f1: 0.417
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.452, recall: 0.391, f1: 0.420
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.437, recall: 0.404, f1: 0.420
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.447, recall: 0.393, f1: 0.418
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.432, recall: 0.407, f1: 0.419
+Epoch: 19 done!
+Time spent:1225.4373500347137
+
+
+
+
+CNN+D2V: 0.20 threshold + 0.70 dropout:
+
+Epoch: 0 done!
+precision: 0.270, recall: 0.090, f1: 0.135
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.359, recall: 0.111, f1: 0.170
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.370, recall: 0.159, f1: 0.222
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.390, recall: 0.176, f1: 0.242
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.416, recall: 0.198, f1: 0.269
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.450, recall: 0.213, f1: 0.289
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.456, recall: 0.236, f1: 0.311
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.480, recall: 0.238, f1: 0.318
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.476, recall: 0.249, f1: 0.327
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.478, recall: 0.258, f1: 0.335
+Epoch: 19 done!
+Epoch: 20 done!
+precision: 0.495, recall: 0.259, f1: 0.340
+Epoch: 21 done!
+Epoch: 22 done!
+precision: 0.487, recall: 0.271, f1: 0.348
+Epoch: 23 done!
+Epoch: 24 done!
+precision: 0.482, recall: 0.281, f1: 0.355
+Epoch: 25 done!
+Epoch: 26 done!
+precision: 0.494, recall: 0.282, f1: 0.359
+Epoch: 27 done!
+Epoch: 28 done!
+precision: 0.491, recall: 0.286, f1: 0.362
+Epoch: 29 done!
+Epoch: 30 done!
+precision: 0.491, recall: 0.289, f1: 0.364
+Epoch: 31 done!
+Epoch: 32 done!
+precision: 0.500, recall: 0.282, f1: 0.360
+Epoch: 33 done!
+Epoch: 34 done!
+precision: 0.506, recall: 0.284, f1: 0.364
+Epoch: 35 done!
+Epoch: 36 done!
+precision: 0.504, recall: 0.286, f1: 0.364
+Epoch: 37 done!
+Epoch: 38 done!
+precision: 0.507, recall: 0.290, f1: 0.369
+Epoch: 39 done!
+Time spent:2543.977838039398
+
+
+
+=======
+
+CNN_Attention: 0.30 threshold, kernel_size: 4
+
+Epoch: 0 done!
+precision: 0.392, recall: 0.090, f1: 0.147
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.480, recall: 0.233, f1: 0.313
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.516, recall: 0.301, f1: 0.380
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.502, recall: 0.346, f1: 0.410
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.539, recall: 0.331, f1: 0.410
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.533, recall: 0.343, f1: 0.417
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.538, recall: 0.346, f1: 0.421
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.510, recall: 0.379, f1: 0.435
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.526, recall: 0.368, f1: 0.433
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.541, recall: 0.359, f1: 0.431
+Epoch: 19 done!
+Time spent:3161.0926611423492
+
+====
+
+CNN_Attention: 0.30 threshold, kernel_size: 5
+
+Epoch: 0 done!
+precision: 0.382, recall: 0.091, f1: 0.147
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.495, recall: 0.226, f1: 0.310
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.545, recall: 0.281, f1: 0.371
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.495, recall: 0.350, f1: 0.410
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.512, recall: 0.352, f1: 0.417
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.535, recall: 0.346, f1: 0.420
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.517, recall: 0.366, f1: 0.429
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.529, recall: 0.363, f1: 0.430
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.515, recall: 0.378, f1: 0.436
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.518, recall: 0.379, f1: 0.438
+Epoch: 19 done!
+Time spent:3201.2554490566254
+
+=====
+
+Only CNN threshold: 0.20, dropout: 0.20
+
+Epoch: 0 done!
+precision: 0.424, recall: 0.151, f1: 0.222
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.462, recall: 0.243, f1: 0.319
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.502, recall: 0.271, f1: 0.352
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.456, recall: 0.322, f1: 0.378
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.473, recall: 0.328, f1: 0.387
+Epoch: 9 done!
+Time spent:618.5428495407104
+
+Epoch: 10 done!
+precision: 0.469, recall: 0.341, f1: 0.395
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.501, recall: 0.320, f1: 0.391
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.467, recall: 0.350, f1: 0.400
+Time spent:308.44830298423767
+
+
+
+=====
+
+Only CNN threshold: 0.20, dropout: 0.15
+
+Epoch: 0 done!
+precision: 0.454, recall: 0.132, f1: 0.204
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.456, recall: 0.229, f1: 0.305
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.500, recall: 0.264, f1: 0.345
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.482, recall: 0.300, f1: 0.370
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.508, recall: 0.290, f1: 0.369
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.483, recall: 0.314, f1: 0.381
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.480, recall: 0.320, f1: 0.384
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.495, recall: 0.313, f1: 0.384
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.491, recall: 0.319, f1: 0.387
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.488, recall: 0.319, f1: 0.386
+Epoch: 19 done!
+Epoch: 20 done!
+precision: 0.484, recall: 0.325, f1: 0.389
+Epoch: 21 done!
+Epoch: 22 done!
+precision: 0.485, recall: 0.324, f1: 0.388
+Epoch: 23 done!
+Epoch: 24 done!
+precision: 0.499, recall: 0.315, f1: 0.386
+Epoch: 25 done!
+Epoch: 26 done!
+precision: 0.479, recall: 0.325, f1: 0.387
+Epoch: 27 done!
+Epoch: 28 done!
+precision: 0.465, recall: 0.337, f1: 0.391
+Epoch: 29 done!
+Time spent:1907.3765971660614
+
+=======================
+
+Only D2V threshold: 0.20 dropout: 0.10
+
+Epoch: 0 done!
+precision: 0.305, recall: 0.093, f1: 0.142
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.340, recall: 0.162, f1: 0.219
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.346, recall: 0.200, f1: 0.254
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.352, recall: 0.225, f1: 0.275
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.374, recall: 0.225, f1: 0.281
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.369, recall: 0.236, f1: 0.288
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.367, recall: 0.243, f1: 0.293
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.369, recall: 0.241, f1: 0.292
+Time spent:868.287793636322
+Epoch: 20 done!
+precision: 0.367, recall: 0.248, f1: 0.296
+Epoch: 21 done!
+Epoch: 22 done!
+precision: 0.367, recall: 0.250, f1: 0.297
+Epoch: 23 done!
+Epoch: 24 done!
+precision: 0.368, recall: 0.250, f1: 0.298
+Epoch: 25 done!
+Epoch: 26 done!
+precision: 0.366, recall: 0.250, f1: 0.297
+Epoch: 27 done!
+Epoch: 28 done!
+precision: 0.366, recall: 0.252, f1: 0.298
+Epoch: 29 done!
+Time spent:577.6578342914581
+====
+
+Only D2V threshold: 0.15 dropout: 0.15
+
+Epoch: 0 done!
+precision: 0.219, recall: 0.145, f1: 0.175
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.278, recall: 0.209, f1: 0.239
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.291, recall: 0.250, f1: 0.269
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.298, recall: 0.277, f1: 0.287
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.303, recall: 0.286, f1: 0.294
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.306, recall: 0.290, f1: 0.298
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.306, recall: 0.299, f1: 0.302
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.312, recall: 0.294, f1: 0.303
+Time spent:866.8937788009644
+
+
+======
+CNN with attention: threshold: 0.30, dropout = 0.10
+
+Epoch: 0 done!
+precision: 0.379, recall: 0.090, f1: 0.145
+Epoch: 1 done!
+Epoch: 2 done!
+precision: 0.500, recall: 0.227, f1: 0.312
+Epoch: 3 done!
+Epoch: 4 done!
+precision: 0.519, recall: 0.297, f1: 0.378
+Epoch: 5 done!
+Epoch: 6 done!
+precision: 0.517, recall: 0.329, f1: 0.402
+Epoch: 7 done!
+Epoch: 8 done!
+precision: 0.528, recall: 0.339, f1: 0.413
+Epoch: 9 done!
+Epoch: 10 done!
+precision: 0.517, recall: 0.358, f1: 0.423
+Epoch: 11 done!
+Epoch: 12 done!
+precision: 0.531, recall: 0.352, f1: 0.423
+Epoch: 13 done!
+Epoch: 14 done!
+precision: 0.538, recall: 0.349, f1: 0.424
+Epoch: 15 done!
+Epoch: 16 done!
+precision: 0.522, recall: 0.364, f1: 0.429
+Epoch: 17 done!
+Epoch: 18 done!
+precision: 0.524, recall: 0.367, f1: 0.432
+Epoch: 19 done!
+Time spent:3038.0843448638916
+
+
+
+python ../../learn/training.py ../../mimicdata/mimic3/train_full.csv ../../mimicdata/mimic3/vocab.csv full conv_attn 200 --filter-size 10 --num-filter-maps 50 --dropout 0.2 --patience 10 --lr 0.0001 --public-model --test-model model.pth --gpu
