@@ -103,7 +103,7 @@ More specifically, it claims:
 \textit{All values are Micro-averaged.}
 \end{small}
 
-	\item Each of the components: CNN and D2V provide important contribution to the overall accuracy of the model (, with CNN being more important). The model accuracy degrades significantly when either of these components are removed.
+	\item Each of the components: CNN and D2V provide important contribution to the overall performance of the model (, with CNN being more important). The model performance degrades when either of these components are removed.
 \newline
 
 \begin{small}
@@ -128,7 +128,7 @@ More specifically, it claims:
 
 \begin{itemize}
     \item Higher Micro-average F1-score in multi-label ICD-9 classification task for the proposed model when compared to baseline models: Flat-SVM and Hierarchical-SVM.
-    \item The model accuracy degrades significantly when either of the components: D2V or CNN are removed.
+    \item The model performance degrades when either of the components: D2V or CNN is removed.
     \item In addition, we also build a different variation of the model which uses CNN with attention (instead of CNN with D2V), as part of additional work to verify if the performance can be improved.
 \end{itemize}
 
@@ -245,7 +245,7 @@ Specifically, following datasets in MIMIC-III were used:
 For the reproducability, following hyperparamters were tuned:
 \begin{itemize}
 	\item Probabilities for dropout layers in D2V and CNN components: The original paper found the optimum value of dropout probability to be \texttt{0.70}. But in this reproducibility work, the best performance was achieved at \texttt{0.20} dropout probability. 
-	\item Threshold value for binary classification: The value between 0 and 1, represents the threshold to assign class 0 or 1 for a given ICD-9 code, in the final classification layer. The original paper found the optimum threshold value as \texttt{0.20}. The same was found to be optimum in this reproducibility work. Lower threshold value was resulting in higher recall but lower accuracy. Similalry higher threshold resulted in higher accuracy but lower recall. At 0.20 threshold, accuracy and recall achieved harmonic balance to result in higher f1-score.
+	\item Threshold value for binary classification: The value between 0 and 1, represents the threshold to assign class 0 or 1 for a given ICD-9 code, in the final classification layer. The original paper found the optimum threshold value as \texttt{0.20}. The same was found to be optimum in this reproducibility work. Lower threshold value was resulting in higher recall but lower precision. Similalry higher threshold resulted in higher precision but lower recall. At 0.20 threshold, precision and recall achieved harmonic balance to result in higher f1-score.
 \end{itemize}
 
 Many potential hyperparameters like number of units in fully connected layers (in D2V fine-tuning, and in classification component), convolution kernel sizes, Doc2Vec/Word2Vec embedding dimensions, and max number of tokens per document, were used as described in original paper.
@@ -335,7 +335,7 @@ The computational requirements for different steps are described below:
 \end{tabular}
 \end{small}
 \newline
-	\item Training the full Deep Learning model: The training could be easily performed on personal machine.
+	\item Training the main Deep Learning model: The training could be easily performed on personal machine.
 \newline
 
 \begin{small}
@@ -352,8 +352,7 @@ The computational requirements for different steps are described below:
 \end{tabular}
 \end{small}
 \newline
-
-Multiple such runs were executed for hyperparameter tuning.
+\textit{Multiple such runs were executed for hyperparameter tuning.}
 
 	\item Training partial model with only D2V (for abalation): During the training of this model we just need to tune the parameters of 2 fully connected layers, which is not very computationally intensive. This was easily achieved on personal machine:
 \newline
@@ -365,13 +364,14 @@ Multiple such runs were executed for hyperparameter tuning.
   	\hline
     		GPU RAM used & 1.2GB \\
   	\hline
-  		Epochs & 40 \\
+  		Epochs & 20 \\
   	\hline
-  		Time taken to train and evaluate & 56 minutes \\
+  		Time taken to train and evaluate & 20 minutes \\
   	\hline
 \end{tabular}
 \end{small}
 \newline
+\textit{Multiple such runs were executed for hyperparameter tuning.}
 
 	\item Training partial model with only CNN (for abalation): This involved training a single 2D CNN layer parameters and one fully connected layer parameters. This was easily achieved on personal machine:
 \newline
@@ -385,7 +385,7 @@ Multiple such runs were executed for hyperparameter tuning.
   	\hline
   		Epochs & 15 \\
   	\hline
-  		Time taken to train and evaluate & 16 minutes \\
+  		Time taken to train and evaluate & 20 minutes \\
   	\hline
 \end{tabular}
 \end{small}
@@ -403,12 +403,12 @@ Multiple such runs were executed for hyperparameter tuning.
   	\hline
   		Epochs & 20 \\
   	\hline
-  		Time taken to train and evaluate & 51 minutes \\
+  		Time taken to train and evaluate & 37 minutes \\
   	\hline
 \end{tabular}
 \end{small}
 \newline	
-	
+\textit{Multiple such runs were executed for hyperparameter tuning.}	
 \end{itemize}
 
 
@@ -428,24 +428,24 @@ DL model (based on D2V and CNN components), was reprodcued successfully, to gene
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.482 & 0.358 & 0.411 \\
+  	0.502 & 0.351 & 0.413 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
 
-\textit{threshold: 0.20, CNN dropout: 0.20, D2V dropout: 0.30, epochs: 20}
+\textit{threshold: 0.20, CNN dropout: 0.20, D2V dropout: 0.30, epochs: 19}
 \end{small}
 \newline
 
 \begin{itemize}
-	\item The F1-score of \texttt{0.411} is better than flat-SVM (\texttt{0.253}) by \texttt{38\%} and hieerarchical-SVM (0.335) by \texttt{18\%}.
-	\item The F1-score of the reproduced model is similar (infact, little better) than the one obtained by authors (\texttt{0.408}), in their work, while still maintaining comparable levels of accuracy, and recall.
+	\item The F1-score of \texttt{0.413} is better than flat-SVM (\texttt{0.253}) by \texttt{39\%} and hieerarchical-SVM (0.335) by \texttt{19\%}.
+	\item The F1-score of the reproduced model is similar (infact, little better) than the one obtained by authors (\texttt{0.408}), in their work, while still maintaining comparable levels of precision, and recall.
 \end{itemize}
 
 \subsection{Result 2}
 
-A partial DL model (without the CNN component), was reproduced successfully as part of abalation, to validate the importance of CNN component.
+A partial DL model (without the CNN component), was reproduced as part of abalation, to validate the importance of CNN component. Here there was a little degradation compared to authors' ablation metrics.
 \newline
 
 \begin{small}
@@ -453,18 +453,18 @@ A partial DL model (without the CNN component), was reproduced successfully as p
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.362 & 0.257 & 0.300 \\
+  	0.350 & 0.261 & 0.299 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
 
-\textit{threshold: 0.20, dropout: 0.10, epochs: 40}
+\textit{threshold: 0.18, dropout: 0.10, epochs: 15}
 \end{small}
 \newline
 
 
-The F1-score of \texttt{0.300} is a bit lesser than corresponding score obtained by original authors (\texttt{0.308}) by \texttt{2.5\%}. Nevertheless, this result clearly indicates the severe degradation from the performance of combined model, emphasizing the importance of CNN component.
+The F1-score of \texttt{0.299} is a bit lesser than corresponding score obtained by authors (\texttt{0.308}) by \texttt{3\%}. Nevertheless, this result clearly indicates the severe degradation from the performance of combined model, emphasizing the importance of CNN component.
 
 \subsection{Result 3}
 
@@ -476,18 +476,18 @@ A partial DL model (without the D2V component), was reproduced successfully as p
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.467 & 0.350 & 0.400 \\
+  	0.478 & 0.345 & 0.401 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
 
-\textit{threshold: 0.20, dropout: 0.20, epochs: 15}
+\textit{threshold: 0.20, dropout: 0.20, epochs: 13}
 \end{small}
 \newline
 
 
-The f1-score of \texttt{0.400} of this partial model is very close to that obtained by original authors \texttt{0.399}. This result indicates the \texttt{2.6\%} and \texttt{3.1\%} degradation in micro f1-score and accuracy respectively, compared to combined model, which supports the claim by the authors that D2V component is important, but its contribution is lesser than CNN component.
+The f1-score of \texttt{0.401} of this partial model is very close to that obtained by original authors \texttt{0.399}. This result indicates the \texttt{3\%} and \texttt{5\%} degradation in micro f1-score and precision respectively, compared to combined model, which supports the claim by the authors that D2V component is important, but its contribution is lesser than CNN component.
 
 \subsection{Additional results not present in the original paper}
 
@@ -499,22 +499,17 @@ An alternate model based on CNN + Attention was created to demonstrate the effec
   \hline
   	Precision & Recall & F1-score \\
   \hline
-  	0.524 & 0.367 & 0.432 \\
+  	0.520 & 0.372 & 0.434 \\
   \hline
 \end{tabular}
 
 \textit{All values are Micro-averaged.}
 
-\textit{threshold: 0.30, kernel size: 5, dropout: 0.10, epochs: 20}
+\textit{threshold: 0.30, kernel size: 5, dropout: 0.10, epochs: 19}
 \end{small}
 \newline
 
-This "new" model did not undergo extensive hyperparameter tuning, but it was still able to surpass the performance of reproduced (main) model:
-
-\begin{itemize}
-	\item The F1-score of \texttt{0.432} is better than the main model (\texttt{0.411}) by \texttt{5\%}. It also significantly improved accuracy by \texttt{21\%}.
-	\item The downside is that this model required more than double the time to train and validate.
-\end{itemize}
+This "new" model did not undergo extensive hyperparameter tuning, but it was still able to surpass the performance of reproduced (main) model. The F1-score of \texttt{0.434} is better than the reproduced main model (\texttt{0.413}) by \texttt{5\%}. It also shows improvement in both precision and recall.
 
 \section{Discussion}
 
