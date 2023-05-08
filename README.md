@@ -2,6 +2,12 @@
 
 This repository contains an implementation of paper [Automated ICD-9 Coding via A Deep Learning Approach](https://www.computer.org/csdl/journal/tb/2019/04/08320340/13rRUxASua9). 
 
+## Additional Resources:
+
+- [Presentation Slides](cs598-dl-project.pptx)
+- [Presentation Video](https://youtu.be/9C63Zdyvm9M)
+- [Project Report](documents/report.pdf)
+
 
 ## Requirements
 
